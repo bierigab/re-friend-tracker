@@ -9,12 +9,50 @@ export class GuiModel {
 
     private _guiModel = {
         "application": {
-            "title": "Requirements Engineering Friend Tracker",
+            "title": "Gabriel's Friend Tracker",
             "formList": [
+            	{
+            		"id": "GroupForm",
+            		"title": "Group",
+            		"formFieldList": [
+            			{
+            				"id": "name",
+            				"type": "text",
+            				"name": "GroupName",
+            				"width": 2,
+            				"required": true
+            			},
+            			{
+            				"type": "deleteButton",
+            				"name": "Delete"
+            			},
+            			{
+            				"type": "cancelButton",
+            				"name": "Cancel"
+            			},
+            			{
+            				"type": "okButton",
+            				"name": "Ok"
+            			}
+            		]
+            	},
                 {
                     "id": "FriendForm",
                     "title": "Friend",
                     "formFieldList": [
+						{
+								"id": "group",
+								"type": "autocomplete",
+								"name": "Group",
+								"data": [ "Study", "Family", "School" ],
+						},
+                    	{
+                    		"id": "nickname",
+                    		"type": "text",
+                    		"name": "Nickname",
+                    		"width": 2,
+                    		"required": true
+                    	},
                         {
                             "id": "familyName",
                             "type": "text",
@@ -89,13 +127,94 @@ export class GuiModel {
                             "name": "Ok"
                         }
                     ]
-                }
+                },
+				{
+					"id": "ActivityForm",
+					"title": "Activity",
+					"formFieldList": [
+						{
+							"id": "name",
+							"type": "text",
+							"name": "ActivityName",
+							"width": 2,
+							"required": true
+						},
+						{
+                            "id": "date",
+                            "type": "date",
+                            "name": "Date",
+                            "width": 2
+                        },
+						{
+							"id": "location",
+							"type": "autocomplete",
+							"name": "Location",
+							"data": ["Movie", "Eating Pizza", "Running"],
+							"form": "LocationForm",
+							"width": 2
+						},
+						{
+                            "id": "comment",
+                            "type": "text",
+                            "name": "Comments",
+                            "width": 2,
+                            "height": 4,
+                            "maxLength": 5000,
+                        },
+						{
+							"type": "cancelButton",
+							"name": "Delete"
+						},
+						{
+							"type": "cancelButton",
+							"name": "Cancel"
+						},
+						{
+							"type": "okButton",
+							"name": "Ok"
+						}
+					]
+				}
             ],
             "pageList": [
+            	{
+            		"id": "groupspage",
+            		"elementList": [
+            			{
+            				"type": "backbutton",
+            			},
+            			{
+            				"type": "newButton",
+            				"name":	"NewGroup",
+            				"icon": "fa-weixin",
+            				"color": "green",
+            				"form": {
+            					"form": "GroupForm"
+            				}
+            			},
+						{
+							"type": "list",
+							"icon": "fa-connectdevelop",
+							"color": "red",
+							"search": true,
+							"data": [ {name: "Study"},  { name: "Family"}, { name: "School"} ],
+							"form": {
+								"form": "GroupForm"
+						}
+						},
+            		]
+            	},
                 {
                     "id": "mainmenu",
                     "name": "MainMenu",
                     "elementList": [
+                    	{
+                    		"type": "button",
+                            "name": "Groups",
+                            "icon": "fa-group",
+                            "color": "magenta",
+                            "page": "groupspage",
+                    	},
                         {
                             "type": "button",
                             "name": "Friends",
@@ -106,8 +225,8 @@ export class GuiModel {
                         {
                             "type": "button",
                             "name": "Location",
-                            "icon": "fa-cubes",
-                            "color": "yellow",
+                            "icon": "fa-location-arrow",
+                            "color": "green",
                             "page": "locationspage",
                         },
                     ]
@@ -121,8 +240,8 @@ export class GuiModel {
                         {
                             "type": "newButton",
                             "name": "NewFriend",
-                            "icon": "fa-user",
-                            "color": "green",
+                            "icon": "fa-reddit-alien",
+                            "color": "magenta",
                             "form": {
                                 "form": "FriendForm"
                             }
@@ -132,10 +251,8 @@ export class GuiModel {
                             "icon": "fa-user",
                             "color": "blue",
                             "search": true,
-                            "data": [ { name: "Anton Amacker" }, { name: "Britta Beavers"} ],
-                            "form": {
-                                "form": "FriendForm"
-                            }
+                            "data": [ { name: "Heiri Hugentobler" }, { name: "Peter Müller"} ],
+                            "page": "activitypage"
                         },
                     ]
                 },
@@ -159,14 +276,51 @@ export class GuiModel {
                             "icon": "fa-home",
                             "color": "blue",
                             "search": true,
-                            "data": [ { name: "Adelboden" }, { name: "Winterthur" }, { name: "Zinal"}, { name: "Zürich"} ],
+                            "data": [ { name: "Pfäffikon" }, { name: "Winterthur" }, { name: "Otelfingen"}, { name: "Zürich"} ],
                             "form": {
                                 "form": "LocationForm"
                             }
                         },
                     ]
-                }
-            ]
+                },
+				{
+					"id": "activitypage",
+					"elementList": [
+						{
+							"type": "backbutton",
+						},
+						{
+							"type": "newButton",
+							"name": "EditFriend",
+							"icon": "fa-user",
+							"color": "red",
+							"form": {
+								"form": "FriendForm"
+							}
+						},
+						{
+							"type": "newButton",
+							"name": "NewActivity",
+							"icon": "fa-spinner",
+							"color": "clouds",
+							"form": {
+								"form": "ActivityForm"
+							}
+						},
+						{
+							"type": "list",
+							"icon": "fa-dashboard",
+							"color": "midnight-blue",
+							"search": true,
+							"data": [ {name: "Kino"}, {name: "Essen"}, {name: "Schwimmen"}],
+							"form": {
+								"form": "ActivityForm"
+							}
+						},
+					]	
+				}
+			
+			]
         }
     };
 
